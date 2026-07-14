@@ -1,0 +1,17 @@
+tensorflow
+numpy
+pandas>=2.1.0
+scikit-learn
+scipy
+matplotlib
+seaborn
+nltk
+transformers
+torch
+plotly
+protobuf
+streamlit>=1.30.0
+google-generativeai
+python-dotenv
+openpyxl
+tqdm
