@@ -1,15 +1,361 @@
-# AI-Driven Emotion Detection & Personalized Learning Support Platform
+# 🎓 Emotion Detection Learning Support Engine
 
-The AI-Driven Emotion Detection & Personalized Learning Support Platform is an end-to-end system that transforms a learner’s free-text description of their study challenge into an emotion-aware, supportive response. By combining deep learning emotion classifiers (BiLSTM and BERT) with rule-based keyword enhancement and Gemini-generated guidance, the platform ingests raw student input, predicts nuanced emotional states (Bored, Confident, Confused, Curious, Frustrated), and delivers tailored tips, next steps, and encouragement.
+An AI-powered learning support system that detects a student's emotional state from text and provides personalized learning assistance using Machine Learning, Deep Learning, and Google Generative AI.
 
-## Features
-- **Emotion Classification**: Uses BiLSTM and BERT models to detect emotions.
-- **Mixed Emotion Detection**: Highlights mixed emotions with a confidence threshold.
-- **Personalized Responses**: Generates AI responses using Gemini 2.5 Flash, with template fallbacks.
-- **Streamlit Dashboard**: A beautiful, interactive dashboard with model comparison and analytics.
+The system identifies emotions expressed by students and recommends supportive responses, motivational messages, and learning guidance to improve engagement and learning outcomes.
 
-## Setup
-1. Create a virtual environment (`python -m venv venv`)
-2. Install requirements (`pip install -r requirements.txt`)
-3. Add your Gemini API Key in the `.env` file.
-4. Run the app (`streamlit run app.py`)
+---
+
+# 🚀 Features
+
+* 😊 Detects emotions from user input text
+* 🧠 Uses multiple AI models for prediction
+
+  * Traditional Machine Learning
+  * BiLSTM Deep Learning Model
+  * BERT Transformer Model
+* 🤖 AI-generated learning suggestions using Google Gemini
+* 📊 Displays predicted emotion with confidence score
+* 🎨 Interactive Streamlit web application
+* ⚡ Fast real-time prediction
+* 📈 Clean and user-friendly interface
+
+---
+
+# 🛠 Tech Stack
+
+### Programming Language
+
+* Python 3.11+
+
+### Machine Learning
+
+* Scikit-learn
+* TensorFlow / Keras
+* BERT
+* NumPy
+* Pandas
+
+### NLP
+
+* NLTK
+* Tokenization
+* Text Cleaning
+
+### Frontend
+
+* Streamlit
+
+### Generative AI
+
+* Google Gemini API
+
+### Visualization
+
+* Matplotlib
+* Seaborn
+
+---
+
+# 📂 Project Structure
+
+```
+Emotion-detection-learning-support-engine/
+
+│
+├── app.py
+├── requirements.txt
+├── README.md
+│
+├── data/
+│
+├── models/
+│   ├── bert_model
+│   ├── bilstm_model.keras
+│   ├── tokenizer.pkl
+│   └── label_encoder.pkl
+│
+├── src/
+│   ├── preprocessing.py
+│   ├── predict.py
+│   ├── model.py
+│   ├── bert_model.py
+│   └── utils.py
+│
+├── notebooks/
+│
+└── assets/
+    └── screenshots
+```
+
+---
+
+# ⚙️ Installation
+
+Clone the repository
+
+```bash
+git clone https://github.com/Sushma-1510/Emotion-detection-learning-support-engine.git
+```
+
+Move into the project directory
+
+```bash
+cd Emotion-detection-learning-support-engine
+```
+
+Create a virtual environment
+
+### Windows
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### Linux / Mac
+
+```bash
+python3 -m venv venv
+
+source venv/bin/activate
+```
+
+Install dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+# 🔑 Configure Google Gemini API
+
+Create a `.env` file in the project root.
+
+```
+GOOGLE_API_KEY=YOUR_API_KEY
+```
+
+Replace `YOUR_API_KEY` with your Google Gemini API key.
+
+---
+
+# ▶️ Run the Application
+
+```bash
+streamlit run app.py
+```
+
+The application will open in your browser.
+
+---
+
+# 🧠 Workflow
+
+```
+User Input
+      │
+      ▼
+Text Preprocessing
+      │
+      ▼
+Emotion Prediction
+(BERT / BiLSTM / ML)
+      │
+      ▼
+Detected Emotion
+      │
+      ▼
+Google Gemini
+      │
+      ▼
+Learning Support Suggestion
+      │
+      ▼
+Displayed on Streamlit
+```
+
+---
+
+# 🎯 Supported Emotions
+
+* Happy
+* Sad
+* Angry
+* Fear
+* Surprise
+* Love
+* Neutral
+
+*(The available emotions depend on the trained dataset.)*
+
+---
+
+# ▶️ How to Run the Project
+
+## 1. Clone the Repository
+
+```bash
+git clone https://github.com/Sushma-1510/Emotion-detection-learning-support-engine.git
+cd Emotion-detection-learning-support-engine
+```
+
+---
+
+## 2. Create a Virtual Environment
+
+### Windows
+
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
+
+### Linux / macOS
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
+
+---
+
+## 3. Install Dependencies
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## 4. Configure Environment Variables
+
+Create a `.env` file in the project root and add your Google Gemini API key.
+
+```env
+GOOGLE_API_KEY=YOUR_GOOGLE_GEMINI_API_KEY
+```
+
+---
+
+## 5. Train the Models (Skip if Pre-trained Models Are Available)
+
+If the trained models are not already present in the `models/` directory, run the training scripts.
+
+### Train the Machine Learning Model
+
+```bash
+python src/model.py
+```
+
+### Train the BiLSTM Model
+
+```bash
+python src/bilstm_model.py
+```
+
+### Train the BERT Model
+
+```bash
+python src/bert_model.py
+```
+
+> If your repository already contains the trained model files, you can skip this step.
+
+---
+
+## 6. Launch the Streamlit Application
+
+```bash
+streamlit run app.py
+```
+
+---
+
+## 7. Open the Application
+
+Once the server starts, open your browser and visit:
+
+```
+http://localhost:8501
+```
+
+---
+
+# 📋 Usage
+
+1. Open the Streamlit application.
+2. Enter a sentence expressing your feelings or emotions.
+3. Click the **Predict** button.
+4. The system detects the emotion using the selected AI model.
+5. Google Gemini generates personalized learning support and motivational suggestions based on the detected emotion.
+6. View the predicted emotion, confidence score, and AI-generated response on the screen.
+
+---
+
+# 🛑 Troubleshooting
+
+### ModuleNotFoundError
+
+Install all required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Missing API Key
+
+Make sure the `.env` file contains a valid Google Gemini API key.
+
+### Streamlit Command Not Found
+
+Run:
+
+```bash
+pip install streamlit
+```
+
+or
+
+```bash
+python -m streamlit run app.py
+```
+
+### Model Files Not Found
+
+Ensure the trained model files are available in the `models/` directory, or run the training scripts before launching the application.
+
+
+---
+
+# 📈 Future Improvements
+
+* Voice emotion detection
+* Facial emotion recognition
+* Student performance analytics
+* Personalized learning dashboard
+* Multi-language support
+* User authentication
+* Cloud deployment
+
+---
+
+# 👩‍💻 Author
+
+**Sushma**
+
+B.Sc. Computer Science
+
+SRM University-AP
+
+GitHub:
+https://github.com/Sushma-1510
+
+---
+
+# 📜 License
+
+This project is developed for academic and educational purposes.
+
+Feel free to modify and extend it for learning and research.
