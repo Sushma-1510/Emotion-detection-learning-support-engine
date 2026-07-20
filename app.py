@@ -16,7 +16,14 @@ st.set_page_config(
 )
 
 # ── Imports ─────────────────────────────────────────────────
-from src.predict import predict_emotion, compare_models, is_fallback_mode
+from src.predict import (
+    predict_emotion,
+    compare_models,
+    is_fallback_mode,
+    load_bilstm_runtime,
+    load_bert_runtime,
+    reload_models_if_present,
+)
 from gemini_handler import get_gemini_response
 from logger import log_interaction, get_all_logs, get_stats, delete_log_entry
 from analytics import (plot_emotion_frequency,
@@ -103,7 +110,7 @@ with st.sidebar:
     st.markdown("---")
     page = st.radio(
         "Navigate",
-        ["🏠 Home", "📊 Analytics", "📋 Session History"],
+        ["🏠 Home", "📋 Session History"],
         label_visibility="collapsed"
     )
     st.markdown("---")
@@ -124,6 +131,33 @@ with st.sidebar:
             "⚠️ Running in fallback mode because a trained model is unavailable. "
             "Predictions are currently keyword/rule-based."
         )
+
+    st.markdown("---")
+    st.markdown("### 📁 Upload / Load Models (runtime)")
+    with st.expander("Upload BiLSTM artifacts (tokenizer.pkl, label_encoder.pkl, model)"):
+        bilstm_model_file = st.file_uploader("BiLSTM model (.keras/.h5)", type=["keras", "h5", "pt", "zip"], key="bilstm_model")
+        tokenizer_file = st.file_uploader("tokenizer.pkl", type=["pkl"], key="tokenizer")
+        le_file = st.file_uploader("label_encoder.pkl", type=["pkl"], key="label_encoder")
+        if st.button("Upload & Load BiLSTM", key="load_bilstm"):
+            try:
+                load_bilstm_runtime(model_file=bilstm_model_file, tokenizer_file=tokenizer_file, label_encoder_file=le_file)
+                st.success("BiLSTM model and artifacts loaded successfully.\nYou can now use the BiLSTM model without restarting.")
+                reload_models_if_present()
+            except Exception as e:
+                st.error(f"Failed to load BiLSTM: {e}")
+
+    with st.expander("Upload BERT model (.pt)"):
+        bert_file = st.file_uploader("BERT state_dict (.pt)", type=["pt"], key="bert_model")
+        if st.button("Upload & Load BERT", key="load_bert"):
+            try:
+                if bert_file is None:
+                    st.warning("Please choose a .pt file first.")
+                else:
+                    load_bert_runtime(model_file=bert_file)
+                    st.success("BERT model loaded successfully.\nYou can now use the BERT model without restarting.")
+                    reload_models_if_present()
+            except Exception as e:
+                st.error(f"Failed to load BERT: {e}")
 
     st.markdown("---")
     stats = get_stats()

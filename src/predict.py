@@ -168,6 +168,95 @@ def _try_load_models():
     _models_loaded = True
 
 
+# ── Runtime Load Helpers ───────────────────────────────────
+def _save_bytes_to_path(bobj, path: str):
+    """Save a file-like or bytes object to disk."""
+    dirp = os.path.dirname(path)
+    if dirp and not os.path.exists(dirp):
+        os.makedirs(dirp, exist_ok=True)
+
+    # bobj may be bytes or file-like
+    data = None
+    if isinstance(bobj, (bytes, bytearray)):
+        data = bobj
+    else:
+        try:
+            # streamlit gives UploadedFile which has .read()
+            data = bobj.read()
+        except Exception:
+            raise ValueError("Unsupported file-like object")
+
+    with open(path, "wb") as f:
+        f.write(data)
+
+
+def load_bilstm_runtime(model_file=None, tokenizer_file=None, label_encoder_file=None):
+    """Load a BiLSTM model and its artifacts at runtime from uploaded files.
+
+    Args:
+        model_file: bytes or file-like for the Keras model (.keras/.h5 or saved model archive)
+        tokenizer_file: bytes or file-like for `tokenizer.pkl`
+        label_encoder_file: bytes or file-like for `label_encoder.pkl`
+
+    Returns: True if model loaded successfully, otherwise raises.
+    """
+    global _bilstm, _tokenizer, _le, _models_loaded
+
+    from src.model import load_bilstm
+    from src.preprocessing import load_artifacts
+
+    art_dir = 'models/bltsm'
+    model_path = os.path.join(art_dir, 'bilstm_final.keras')
+
+    if model_file is not None:
+        _save_bytes_to_path(model_file, model_path)
+
+    if tokenizer_file is not None:
+        _save_bytes_to_path(tokenizer_file, os.path.join(art_dir, 'tokenizer.pkl'))
+
+    if label_encoder_file is not None:
+        _save_bytes_to_path(label_encoder_file, os.path.join(art_dir, 'label_encoder.pkl'))
+
+    # Attempt to load
+    _tokenizer, _le = load_artifacts(art_dir)
+    _bilstm = load_bilstm(model_path)
+    _models_loaded = True
+    return True
+
+
+def load_bert_runtime(model_file=None):
+    """Load a fine-tuned BERT model at runtime from an uploaded `.pt` file.
+
+    Args:
+        model_file: bytes or file-like containing PyTorch state_dict
+
+    Returns: True if loaded successfully.
+    """
+    global _bert, _bert_tokenizer, _device, _models_loaded
+
+    from src.bert_model import load_bert
+
+    bert_dir = 'models/bert_emotion_model_final'
+    model_path = os.path.join(bert_dir, 'bert_model.pt')
+
+    if model_file is None:
+        raise ValueError("No model_file provided")
+
+    _save_bytes_to_path(model_file, model_path)
+
+    _bert, _bert_tokenizer, _device = load_bert(model_path)
+    _models_loaded = True
+    return True
+
+
+def reload_models_if_present():
+    """Convenience: re-run the model discovery to load any models now present on disk."""
+    # Reset flags so _try_load_models will attempt to load again
+    global _models_loaded
+    _models_loaded = False
+    _try_load_models()
+
+
 # Load models on import (non-crashing)
 _try_load_models()
 

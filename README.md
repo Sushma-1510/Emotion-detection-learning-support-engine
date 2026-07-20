@@ -315,7 +315,7 @@ Run:
 ```bash
 pip install streamlit
 ```
-
+ 
 or
 
 ```bash
@@ -325,6 +325,16 @@ python -m streamlit run app.py
 ### Model Files Not Found
 
 Ensure the trained model files are available in the `models/` directory, or run the training scripts before launching the application.
+
+### Runtime Model Uploads (new)
+
+You can now upload pre-trained model artifacts directly from the Streamlit sidebar at runtime. This allows you to load a BiLSTM or BERT model without restarting the server:
+
+- Go to the Streamlit sidebar and expand **Upload / Load Models (runtime)**.
+- Upload `bilstm_final.keras` (or `.h5`), `tokenizer.pkl`, and `label_encoder.pkl` and click **Upload & Load BiLSTM**.
+- Upload `bert_model.pt` and click **Upload & Load BERT**.
+
+Uploaded models are saved under the `models/` folder and loaded into the running app immediately.
 
 
 ---
@@ -340,7 +350,7 @@ Ensure the trained model files are available in the `models/` directory, or run 
 * Cloud deployment
 
 ---
-
+Video Links For the Project Explanation
 Code Demonstration: [https://drive.google.com/file/d/12LUMbhw3RC3hM4wf81Nxz40rjGJp4m64/view?usp=drive_link]
 
 
@@ -348,7 +358,7 @@ Project Demonstration:[https://drive.google.com/file/d/1vUuiVp43V1kdr24NDTDCOvwI
 
 # 👩‍💻 Author
 
-**Sushma**
+**Venkata Sushma Perla**
 
 B.Sc. Computer Science
 
